@@ -30,7 +30,7 @@
 <header id="header" class="fixed-top d-flex align-items-center mb-3">
     <div class="container d-flex align-items-center">
     <img src="assets/img/teslogo.jpg" alt="logo loka" width="40px" class="px-2">
-    <h1 class="logo me-auto ml-2"><a href="index.html">LPSPL Sorong</a></h1>
+    <h1 class="logo me-auto ml-2"><a href="">LPSPL Sorong</a></h1>
     <!-- Uncomment below if you prefer to use an image logo -->
     <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -44,7 +44,7 @@
         <li><a href="#"></a></li>
 
         <li><a href="#"></a></li>
-        <li><a href="" class="getstarted">Form Registrasi</a></li>
+        <li><a href="http://timurbersinar.com/index.html" class="getstarted">Kenali Kami</a></li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav><!-- .navbar -->
