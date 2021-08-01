@@ -4,6 +4,7 @@
 
 @section('isi')
 
+
 <div class="card shadow mb-4">
    
     <div class="col-lg-10 mx-auto">
@@ -62,6 +63,19 @@
                         <option value="Perempuan">Perempuan</option>
                       </select>
                       @error('jk') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                    </div>
+
+                    <div class="form-group mt-3">
+                      <label for="employes_id">Menemui Siapa</label>
+                      <select class="form-control form-select @error('employes_id') is-invalid @enderror" aria-label="employes_id" name="employes_id">
+                       
+                          <option selected value="{{ $book->employes_id }}">{{ $book->employe->jabatan }} - {{ $book->employe->name }}</option>
+                          @foreach ($employe as $pgw)
+                          <option value ="{{$pgw->id}}">{{ $pgw->jabatan }} - {{ $pgw->name }}</option>
+                          @endforeach
+                        </select>
+                        @error('employes_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                    </div>
             
                       <div class="form-group mt-3">
                         <label for="lokasi">Satker Tujuan</label>
@@ -74,13 +88,19 @@
                             <option value="Morotai">Morotai</option>
                           </select>
                           @error('lokasi') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-            
+                      </div>
             
                       <div class="form-group mt-3">
                         <label for="keperluan">Keperluan</label>
                           <input type="text" class="form-control @error('keperluan') is-invalid @enderror" name="keperluan" id="keperluan" placeholder="Masukan Keperluan" value="{{ $book->keperluan}}">
                           @error('keperluan') <div class="invalid-feedback"> {{ $message }} </div> @enderror
                         </div>
+                      
+                        <div class="form-group mt-3">
+                          <label for="suhu">Suhu</label>
+                            <input type="text" class="form-control" name="suhu" id="suhu" placeholder="Masukan Suhu Tubuh Anda" value="{{ $book->suhu }}">
+                            @error('suhu') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                           </div>
 
                       {{-- <div class="form-group mt-3">
                         <label for="datang">Jam Datang</label>
@@ -94,10 +114,10 @@
                           @error('pulang') <div class="invalid-feedback"> {{ $message }} </div> @enderror
                         </div> --}}
             
-                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <button type="submit" class="btn btn-primary float-left">Edit</button>
             </form>
             <!-- Button trigger modal -->
-                <a href="/data" class="btn btn-secondary">Batal</a>
+                <a href="/data" class="btn btn-secondary ml-2">Batal</a>
 
             <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal">
                     Hapus

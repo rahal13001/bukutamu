@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Employe;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,8 @@ class AdminbooksController extends Controller
      */
     public function create()
     {
-        return View('admin.create');
+        $employe = Employe::all();
+        return View('admin.create', compact('employe'));
     }
 
     /**
@@ -44,8 +46,10 @@ class AdminbooksController extends Controller
             'jk' => 'required',
             'email' => 'required|email',
             'lokasi' => 'required',
+            'employes_id' => 'required',
             'datang' => 'required',
             'keperluan' => 'required',
+            'suhu' => 'integer'
         ]);
 
         $data = $request->all();
@@ -72,7 +76,9 @@ class AdminbooksController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('admin.edit', compact('book'));
+        $employe = Employe::all();
+        $ambil = Book::where('id', $book->id)->with('employe')->get();
+        return view('admin.edit', compact('book'), compact('employe'), compact('ambil'));
     }
 
     /**
@@ -94,6 +100,8 @@ class AdminbooksController extends Controller
             'lokasi' => 'required',
             'datang' => 'required',
             'keperluan' => 'required',
+            'employes_id' => 'required',
+            'suhu' => 'integer',
         ]);
 
         Book::where('id', $book->id)
@@ -102,12 +110,14 @@ class AdminbooksController extends Controller
                 'tanggal' => $request->tanggal,
                 'instansi' => $request->instansi,
                 'no_hp' => $request->no_hp,
+                'employes_id' => $request->employes_id,
                 'email' => $request->email,
                 'jk' => $request->jk,
                 'datang' => $request->datang,
                 'keperluan' => $request->keperluan,
                 'pulang' => $request->pulang,
                 'lokasi' => $request->lokasi,
+                'suhu' => $request->suhu,
             ]);
         return redirect('/data')->with('status', 'Data Tamu Berhasil Diubah');
     }

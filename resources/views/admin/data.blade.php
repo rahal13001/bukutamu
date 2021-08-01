@@ -52,14 +52,13 @@
                     <table class="table table-bordered table-hover scroll-horizontal-vertical" id="crudTable" width="100%" cellspacing="0" id="crudtable">
                 <thead class="thead-dark text-center">
                     <tr>
+                        <th scope="col">+</th>
                         <th scope="col">No</th>
                         <th scope="col">Tanggal</th>
                         <th scope="col">Nama</th>
                         <th scope="col">Asal Instansi</th>
                         <th scope="col">No HP</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Keperluan</th>
-                        <th scope="col">Lokasi</th>
+                        <th scope="col">Menemui</th>
                         <th scope="col">Jam Datang</th>
                         <th scope="col">Jam Pulang</th>
                         <th scope="col">Aksi</th>
@@ -88,7 +87,49 @@
 @endsection
 
 @push('addon-script')
+
+<style>
+
+    td.details-control {
+        background: url('../img/chevron-double-down.svg') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url('../img/chevron-double-up.svg') no-repeat center center;
+    }
+    </style>
+
     <script>
+
+function template ( d ) {
+
+
+    return '<table class="table table-bordered table-hover scroll-horizontal-vertical table-responsive">'+
+        '<tr>'+
+            '<td>Keperluan</td>'+
+            '<td>'+d.keperluan+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Jenis Kelamin</td>'+
+            '<td>'+d.jk+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Lokasi</td>'+
+            '<td>'+d.lokasi+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Email</td>'+
+            '<td>'+d.email+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Suhu</td>'+
+            '<td>'+d.suhu+'</td>'+
+        '</tr>'+
+        '</table>'
+
+}
+
+
 
 //Ajax Data Table Mulai
        $(document).ready(function () {
@@ -141,6 +182,13 @@
                     // {data: 'null', sortable : false,
                     // render : function (data, type, row, meta){
                     // return meta.row + meta.setting._iDisplayStart + 1;}},
+                    {
+                        "className":      'details-control',
+                        "orderable":      false,
+                        "searchable":     false,
+                        "data":           null,
+                        "defaultContent": ''
+                    },
                     { data:'id',
                       sortable: false, 
                        render: function (data, type, row, meta) {
@@ -151,9 +199,7 @@
                     {data: 'nama', name : 'nama'},
                     {data: 'instansi', name : 'instansi'},
                     {data: 'no_hp', name : 'no_hp'},
-                    {data: 'email', name : 'email'},
-                    {data: 'keperluan', name : 'keperluan'},
-                    {data: 'lokasi', name : 'lokasi'},
+                    {data: 'employe.name', name : 'employe.name'},
                     {data: 'datang', name : 'datang'},
                     {data: 'pulang', name : 'pulang'},
                     {
@@ -165,7 +211,30 @@
                     },
             ]
         });
+        $('#crudTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = datatable.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( template(row.data()) ).show();
+            tr.addClass('shown');
         }
     });
+
+
+
+
+        }
+    });
+
+   
+
+
     </script>
 @endpush

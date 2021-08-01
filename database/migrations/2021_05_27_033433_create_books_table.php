@@ -15,6 +15,7 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->integer('employes_id', false);
             $table->string('nama', 100);
             $table->string('instansi', 100);
             $table->string('no_hp', 30);
@@ -23,6 +24,7 @@ class CreateBooksTable extends Migration
             $table->date('tanggal');
             $table->time('datang');
             $table->time('pulang')->nullable();
+            $table->string('suhu', false)->nullable();
             $table->string('keperluan', 255)->nullable();
             $table->string('lokasi', 50);
             $table->timestamps();

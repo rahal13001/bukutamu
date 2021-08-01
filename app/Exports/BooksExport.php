@@ -32,16 +32,19 @@ class BooksExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidt
         if (!empty($this->from_date)) {
             if ($this->from_date === $this->to_date) {
                 $data = DB::table('books')
+                    ->join('employes', 'books.employes_id', 'employes.id')
                     ->where('tanggal', '=', $this->to_date)
-                    ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp',  'email', 'keperluan', 'lokasi', 'datang', 'pulang')->orderBy('tanggal');
+                    ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp', 'employes.name', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
             } else {
                 $data = DB::table('books')
+                    ->join('employes', 'books.employes_id', 'employes.id')
                     ->whereBetween('tanggal', [$this->from_date, $this->to_date])
-                    ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp',  'email', 'keperluan', 'lokasi', 'datang', 'pulang')->orderBy('tanggal');
+                    ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp', 'employes.name', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
             }  // return Book::query()->whereBetween('tanggal', [$this->from_date, $this->to_date]);
         } else {
             $data =  DB::table('books')
-                ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp',  'email', 'keperluan', 'lokasi', 'datang', 'pulang')->orderBy('tanggal');
+                ->join('employes', 'books.employes_id', 'employes.id')
+                ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp',  'employes.name', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
         }
         return $data;
     }
@@ -54,9 +57,11 @@ class BooksExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidt
             'Jenis Kelamin',
             'Instansi',
             'Nomor HP',
+            'Menemui',
             'Email',
             'Keperluan',
             'Lokasi',
+            'Suhu',
             'Datang',
             'Pulang',
         ];
@@ -78,11 +83,13 @@ class BooksExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidt
             'C' => 12,
             'D' => 25,
             'E' => 15,
-            'F' => 35,
+            'F' => 45,
             'G' => 55,
-            'H' => 10,
+            'H' => 55,
             'I' => 10,
             'J' => 10,
+            'K' => 10,
+            'L' => 10,
 
         ];
     }

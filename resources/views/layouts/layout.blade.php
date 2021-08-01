@@ -71,24 +71,24 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Data Tamu :</h6>
-                        <a class="collapse-item" href="">Data</a>
+                        <a class="collapse-item" href="{{ route('data') }}">Data</a>
                         <a class="collapse-item" href="">Tambah</a>
                     </div>
                 </div>
 			</li>
 			
-			<!-- Nav Item - Pages Collapse Manajemen Anggaran -->
+			{{-- <!-- Nav Item - Pages Collapse Manajemen Anggaran -->
 			{{-- <li class="nav-item">
                 <a class="nav-link" href="{{ url('/profil') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Profil Admin</span></a>
-			</li>
+			</li> --}}
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/kontak') }}">
+                <a class="nav-link" href="{{ route('pegawai_index') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Kontak</span></a>
-			</li> --}}
+                    <span>Data Pegawai</span></a>
+			</li>
 
 		    <!-- Divider -->
             <hr class="sidebar-divider">            

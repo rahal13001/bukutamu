@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminbooksController;
 use App\Http\Controllers\BooksController;
+use App\Http\Controllers\EmployesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,6 +37,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/bukutamu/{book}', [AdminbooksController::class, 'update'])->name('admin_update');
     Route::delete('/bukutamu/{book}', [AdminbooksController::class, 'destroy'])->name('admin_delete');
     Route::get('/bukutamu/{book}', [AdminbooksController::class, 'show'])->name('admin_detail');
+
+    Route::get('/employe', [EmployesController::class, 'index'])->name('pegawai_index');
+    Route::get('/employe/{employe}/edit', [EmployesController::class, 'edit'])->name('pegawai_edit');
+    Route::put('/employe/{employe}', [EmployesController::class, 'update'])->name('pegawai_update');
+    Route::get('/employe/{employe}/detail', [EmployesController::class, 'show'])->name('pegawai_detail');
+    Route::get('/employe/create', [EmployesController::class, 'create'])->name('pegawai_create');
+    Route::post('/employe/create', [EmployesController::class, 'store'])->name('pegawai_store');
+    Route::delete('/employe/{employe}', [EmployesController::class, 'destroy'])->name('pegawai_delete');
 });
 
 Auth::routes();

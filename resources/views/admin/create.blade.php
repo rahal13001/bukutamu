@@ -54,6 +54,18 @@
                       <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="Masukan Alamat Email" value="{{ old('email') }}">
                       @error('email') <div class="invalid-feedback"> {{ $message }} </div> @enderror
                     </div>
+
+                    <div class="form-group mt-3">
+                      <label for="employes_id">Menemui Siapa</label>
+                      <select class="form-control form-select @error('employes_id') is-invalid @enderror" aria-label="employes_id" name="employes_id">
+                          <option selected value="{{ old('employes_id') }}">Siapa yang Anda Temui ?</option>
+                          @foreach ($employe as $pgw)
+                          <option value ="{{$pgw->id}}">{{ $pgw->jabatan }} - {{ $pgw->name }}</option>
+                          @endforeach
+                        </select>
+                        @error('employes_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                    </div>
+          
             
                     <div class="form-group mt-3">
                     <label for="jk">Jenis Kelamin</label>
@@ -75,14 +87,20 @@
                             <option value="Morotai">Morotai</option>
                           </select>
                           @error('lokasi') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-            
-            
+                      </div>
+
                       <div class="form-group mt-3">
                         <label for="keperluan">Keperluan</label>
                           <input type="text" class="form-control @error('keperluan') is-invalid @enderror" name="keperluan" id="keperluan" placeholder="Masukan Keperluan" value="{{ old('keperluan') }}">
                           @error('keperluan') <div class="invalid-feedback"> {{ $message }} </div> @enderror
                         </div>
-
+                      
+                        <div class="form-group mt-3">
+                          <label for="suhu">Suhu</label>
+                            <input type="text" class="form-control" name="suhu" id="suhu" placeholder="Masukan Suhu Tubuh Anda" value="{{ old('suhu') }}">
+                            @error('suhu') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                           </div>
+                        
                       {{-- <div class="form-group mt-3">
                         <label for="datang">Jam Datang</label>
                           <input type="time" class="form-control @error('datang') is-invalid @enderror" name="datang" id="datang" placeholder="Masukan Jam Datang" value="{{ old('datang') }}">

@@ -6,6 +6,7 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Exports\BooksExport;
+use App\Models\Employe;
 use Maatwebsite\Excel\Facades\Excel;
 
 use function PHPUnit\Framework\isNull;
@@ -26,7 +27,8 @@ class BooksController extends Controller
     {
         $waktu = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
         $this->timezone($waktu->timezone);
-        return view('user.books', compact($waktu));
+        $employe = Employe::all();
+        return view('user.books', compact('employe'));
     }
 
     /**
@@ -36,7 +38,8 @@ class BooksController extends Controller
      */
     public function create()
     {
-        return view('user.books');
+        $employe = Employe::all();
+        return view('user.books', compact('employe'));
     }
 
     /**
@@ -55,6 +58,8 @@ class BooksController extends Controller
             'jk' => 'required',
             'email' => 'required|email',
             'lokasi' => 'required',
+            'pegawai' => 'required',
+            'suhu' => 'integer'
         ]);
 
         $tanggal = date('Y-m-d');
@@ -69,19 +74,33 @@ class BooksController extends Controller
         $lokasi = $request->lokasi;
         $btnIn = $request->btnIn;
         $btnOut = $request->btnOut;
-
+        $employes_id = $request->pegawai;
+        $suhu = $request->suhu;
 
         $book = new Book;
         if ($btnIn == 1) {
-            //Zona waktu
-
-            $waktu = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
-            $this->timezone($waktu->timezone);
             //cek data dobel
-            $cek_dobel = $book->where(['tanggal' => $tanggal, 'no_hp' => $no_hp])->count();
+            $cek_dobel = $book->where(['tanggal' => $tanggal, 'no_hp' => $no_hp]);
+            $null = $cek_dobel->whereNull('pulang')->count();
+            $notnull = $cek_dobel->whereNotNull('pulang')->count();
 
-            if ($cek_dobel > 0 && isNull('pulang')) {
+            if ($null > 0) {
                 return redirect()->back()->with('status', 'Anda Sudah Mengisi Data Kedatangan, Mohon Isi Data Kembali Saat Pulang');
+            } elseif ($notnull > 0) {
+                $book->create([
+                    'tanggal' => $tanggal,
+                    'datang' => $datang,
+                    // 'pulang' => $pulang,
+                    'instansi' => $instansi,
+                    'no_hp' => $no_hp,
+                    'nama' => $nama,
+                    'jk' => $jk,
+                    'email' => $email,
+                    'keperluan' => $keperluan,
+                    'lokasi' => $lokasi,
+                    'employes_id' => $employes_id,
+                    'suhu' => $suhu
+                ]);
             }
 
             //save data datang
@@ -95,13 +114,11 @@ class BooksController extends Controller
                 'jk' => $jk,
                 'email' => $email,
                 'keperluan' => $keperluan,
-                'lokasi' => $lokasi
+                'lokasi' => $lokasi,
+                'employes_id' => $employes_id,
+                'suhu' => $suhu
             ]);
         } elseif ($btnOut == 1) {
-
-            //Zona Waktu
-            $waktu = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
-            $this->timezone($waktu->timezone);
 
             //cek apakah sudah absen datang atau belum
             $cek_absen = $book->where(['tanggal' => $tanggal, 'no_hp' => $no_hp])->count();
@@ -133,54 +150,30 @@ class BooksController extends Controller
                 //Jika tanggal awal(from_date) hingga tanggal akhir(to_date) adalah sama maka
                 if ($request->from_date === $request->to_date) {
                     //kita filter tanggalnya sesuai dengan request from_date
-                    $query = Book::whereDate('tanggal', '=', $request->from_date)->get();
+                    $query = Book::whereDate('tanggal', '=', $request->from_date)->with(['employe'])->get();
                 } else {
                     //kita filter dari tanggal awal ke akhir
-                    $query = Book::whereBetween('tanggal', array($request->from_date, $request->to_date))->get();
+                    $query = Book::whereBetween('tanggal', array($request->from_date, $request->to_date))->with(['employe'])->get();
                 }
             } else {
-                $query = Book::query();
+                $query = Book::query()->with(['employe']);
             }
 
             return DataTables::of($query)
                 ->addColumn('aksi', function ($book) {
                     return '
             <a href = "' . route('admin_edit', $book->id) . '"
-            class = "badge badge-warning">
+            class = "btn btn-warning float-left">
                 Edit </a>
-
-            <button type="button" class="badge badge-danger float-right" data-toggle="modal" data-target="#deleteModal">
-                Hapus
-            </button>
-            
-            <!-- Modal Delete-->
-            <div class="modal fade" id="deleteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Hapus Data</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                    Yakin mau menghapus data ?
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
-                    <form action="' . route('admin_delete', $book->id) . '" method="POST">
-                    ' . method_field('delete') . csrf_field() . '
-                    <button type="submit" class="btn btn-danger float-right">
-                        Hapus
-                    </button>
-                </form>
-                    </div>
-                </div>
-                </div>
-            </div>
+            <form action="' . route('admin_delete', $book->id) . '" method="POST">
+                ' . method_field('delete') . csrf_field() . '
+                <button type="submit" class="btn btn-danger" onclick = "return confirm(\'Anda yakin ingin menghapus data ?\') ">
+                    Hapus
+                </button>
+            </form>
             ';
                 })->rawColumns(['aksi'])
-                ->make();
+                ->make(true);
         }
         return view('admin.data');
     }

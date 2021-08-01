@@ -3,13 +3,12 @@
 @section('isi')
 
 <div class="container mt-5">
- 
+  @if (session('status'))
+  <div class="alert alert-success">
+      {{ session ('status') }}
+  </div>
+  @endif
     <section>
-      @if (session('status'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-          {{ session ('status') }}
-      </div>
-      @endif
     <form action="{{ route('simpanbukutamu') }}" method="post" class="user">
         @csrf
 
@@ -57,32 +56,16 @@
                 <option value="Morotai">Morotai</option>
               </select>
               @error('lokasi') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-          </div>
 
-          <div class="form-group mt-3">
-            <label for="pegawai">Pihak Yang Ditemui</label>
-            <select class="form-select @error('pegawai') is-invalid @enderror" aria-label="pegawai" name="pegawai">
-                <option selected value="{{ old('pegawai') }}">Siapa yang Anda Temui ?</option>
-                @foreach ($employe as $pgw)
-                <option value ="{{$pgw->id}}">{{ $pgw->jabatan }} - {{ $pgw->name }}</option>
-                @endforeach
-              </select>
-              @error('pegawai') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-          </div>
 
-          
           <div class="form-group mt-3">
             <label for="keperluan">Keperluan</label>
               <input type="text" class="form-control @error('keperluan') is-invalid @enderror" name="keperluan" id="keperluan" placeholder="Masukan Keperluan" value="{{ old('keperluan') }}">
               @error('keperluan') <div class="invalid-feedback"> {{ $message }} </div> @enderror
             </div>
-          <div class="form-group mt-3">
-            <label for="suhu">Suhu</label>
-              <input type="number" class="form-control" name="suhu" id="suhu" placeholder="Masukan Suhu Tubuh Anda" value="{{ old('suhu') }}"> @error('suhu') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-             </div>
 
-            <button type="submit" class="btn btn-primary mt-3" name="btnIn" value="1">Datang</button>
-            <button type="submit" class="btn btn-danger mt-3 ml-4 float-right" name="btnOut" value="1">Pulang</button>
+            <button type="submit" class="btn btn-primary mt-2" name="btnIn" value="1">Datang</button>
+            <button type="submit" class="btn btn-danger mt-2 ml-4 float-right" name="btnOut" value="1">Pulang</button>
         </form>
     </section>
 </div>
