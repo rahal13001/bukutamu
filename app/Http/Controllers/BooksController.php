@@ -59,7 +59,7 @@ class BooksController extends Controller
             'email' => 'required|email',
             'lokasi' => 'required',
             'pegawai' => 'required',
-            'suhu' => 'integer'
+            'suhu' => 'between:1,99999999.99'
         ]);
 
         $tanggal = date('Y-m-d');

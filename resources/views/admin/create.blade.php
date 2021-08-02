@@ -55,7 +55,7 @@
                       @error('email') <div class="invalid-feedback"> {{ $message }} </div> @enderror
                     </div>
 
-                    <div class="form-group mt-3">
+                    {{-- <div class="form-group mt-3">
                       <label for="employes_id">Menemui Siapa</label>
                       <select class="form-control form-select @error('employes_id') is-invalid @enderror" aria-label="employes_id" name="employes_id">
                           <option selected value="{{ old('employes_id') }}">Siapa yang Anda Temui ?</option>
@@ -64,8 +64,12 @@
                           @endforeach
                         </select>
                         @error('employes_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-                    </div>
-          
+                    </div> --}}
+                    <div class="form-group mt-3">
+                      <label for="employes_id">Pihak Yang Ditemui</label>
+                        <input type="text" class="form-control @error('employes_id') is-invalid @enderror" name="employes_id" id="employes_id" placeholder="Masukan Nama Pihak Yang Anda Temui" value="{{ old('employes_id') }}">
+                        @error('employes_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                      </div>
             
                     <div class="form-group mt-3">
                     <label for="jk">Jenis Kelamin</label>

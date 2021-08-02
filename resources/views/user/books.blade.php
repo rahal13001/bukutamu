@@ -59,7 +59,7 @@
               @error('lokasi') <div class="invalid-feedback"> {{ $message }} </div> @enderror
           </div>
 
-          <div class="form-group mt-3">
+          {{-- <div class="form-group mt-3">
             <label for="pegawai">Pihak Yang Ditemui</label>
             <select class="form-select @error('pegawai') is-invalid @enderror" aria-label="pegawai" name="pegawai">
                 <option selected value="{{ old('pegawai') }}">Siapa yang Anda Temui ?</option>
@@ -68,8 +68,13 @@
                 @endforeach
               </select>
               @error('pegawai') <div class="invalid-feedback"> {{ $message }} </div> @enderror
-          </div>
+          </div> --}}
 
+          <div class="form-group mt-3">
+            <label for="pegawai">Pihak Yang Ditemui</label>
+              <input type="text" class="form-control @error('pegawai') is-invalid @enderror" name="pegawai" id="pegawai" placeholder="Masukan Nama Pihak Yang Anda Temui" value="{{ old('pegawai') }}">
+              @error('pegawai') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+            </div>
           
           <div class="form-group mt-3">
             <label for="keperluan">Keperluan</label>
@@ -78,7 +83,7 @@
             </div>
           <div class="form-group mt-3">
             <label for="suhu">Suhu</label>
-              <input type="number" class="form-control" name="suhu" id="suhu" placeholder="Masukan Suhu Tubuh Anda" value="{{ old('suhu') }}"> @error('suhu') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+              <input type="number" class="form-control" name="suhu" id="suhu" placeholder="Masukan Suhu Tubuh Anda" step=".01" value="{{ old('suhu') }}"> @error('suhu') <div class="invalid-feedback"> {{ $message }} </div> @enderror
              </div>
 
             <button type="submit" class="btn btn-primary mt-3" name="btnIn" value="1">Datang</button>

@@ -76,9 +76,7 @@ class AdminbooksController extends Controller
      */
     public function edit(Book $book)
     {
-        $employe = Employe::all();
-        $ambil = Book::where('id', $book->id)->with('employe')->get();
-        return view('admin.edit', compact('book'), compact('employe'), compact('ambil'));
+        return view('admin.edit', compact('book'));
     }
 
     /**
@@ -90,19 +88,19 @@ class AdminbooksController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $request->validate([
-            'nama' => 'required',
-            'tanggal' => 'required',
-            'instansi' => 'required',
-            'no_hp' => 'required',
-            'jk' => 'required',
-            'email' => 'required|email',
-            'lokasi' => 'required',
-            'datang' => 'required',
-            'keperluan' => 'required',
-            'employes_id' => 'required',
-            'suhu' => 'integer',
-        ]);
+        // $request->validate([
+        //     'nama' => 'required',
+        //     'tanggal' => 'required',
+        //     'instansi' => 'required',
+        //     'no_hp' => 'required',
+        //     'jk' => 'required',
+        //     'email' => 'required|email',
+        //     'lokasi' => 'required',
+        //     'datang' => 'required',
+        //     'keperluan' => 'required',
+        //     'employes_id' => 'required',
+        //     'suhu' => 'integer',
+        // ]);
 
         Book::where('id', $book->id)
             ->update([
@@ -117,7 +115,7 @@ class AdminbooksController extends Controller
                 'keperluan' => $request->keperluan,
                 'pulang' => $request->pulang,
                 'lokasi' => $request->lokasi,
-                'suhu' => $request->suhu,
+                'suhu' => $request->suhu
             ]);
         return redirect('/data')->with('status', 'Data Tamu Berhasil Diubah');
     }

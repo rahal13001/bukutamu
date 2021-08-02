@@ -21,7 +21,7 @@ class EmployesController extends Controller
                 // return view('admin.employes.employes')
                 ->addColumn('aksi', function ($item) {
                     return '
-                <a href = "' . route('pegawai_edit', $item->id) . '"
+                <a href = "' . route('pegawai_edit', $item->id) . '"g
                 class = "btn btn-warning float-left">
                     Edit </a>
 

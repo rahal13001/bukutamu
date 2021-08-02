@@ -199,7 +199,7 @@ function template ( d ) {
                     {data: 'nama', name : 'nama'},
                     {data: 'instansi', name : 'instansi'},
                     {data: 'no_hp', name : 'no_hp'},
-                    {data: 'employe.name', name : 'employe.name'},
+                    {data: 'employes_id', name : 'employes_id'},
                     {data: 'datang', name : 'datang'},
                     {data: 'pulang', name : 'pulang'},
                     {

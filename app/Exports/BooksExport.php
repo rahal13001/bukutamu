@@ -32,19 +32,16 @@ class BooksExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidt
         if (!empty($this->from_date)) {
             if ($this->from_date === $this->to_date) {
                 $data = DB::table('books')
-                    ->join('employes', 'books.employes_id', 'employes.id')
                     ->where('tanggal', '=', $this->to_date)
                     ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp', 'employes.name', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
             } else {
                 $data = DB::table('books')
-                    ->join('employes', 'books.employes_id', 'employes.id')
                     ->whereBetween('tanggal', [$this->from_date, $this->to_date])
-                    ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp', 'employes.name', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
+                    ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp', 'employes_id', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
             }  // return Book::query()->whereBetween('tanggal', [$this->from_date, $this->to_date]);
         } else {
             $data =  DB::table('books')
-                ->join('employes', 'books.employes_id', 'employes.id')
-                ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp',  'employes.name', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
+                ->select('tanggal', 'nama', 'jk', 'instansi', 'no_hp',  'employes_id', 'email', 'keperluan', 'lokasi', 'suhu', 'datang', 'pulang')->orderBy('tanggal');
         }
         return $data;
     }
